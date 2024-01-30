@@ -1,0 +1,685 @@
+--------------------FIRST BLOCK (TABLES) -------------------------------
+
+-- Create Student table
+CREATE TABLE Student (
+    userID INT PRIMARY KEY,
+    firstName VARCHAR(50),
+    lastName VARCHAR(50),
+    resourcesBorrowed INT CHECK (resourcesBorrowed >= 0 AND resourcesBorrowed <= 5),
+    totalFines DECIMAL(5, 2)
+);
+ 
+-- Create Staff table
+CREATE TABLE Staff (
+    userID INT PRIMARY KEY,
+    firstName VARCHAR(50),
+    lastName VARCHAR(50),
+    resourcesBorrowed INT CHECK (resourcesBorrowed >= 0 AND resourcesBorrowed <= 10),
+    totalFines DECIMAL(5, 2)
+);
+ 
+CREATE TABLE Resources (
+    resourceID INT PRIMARY KEY,
+    name VARCHAR(100),
+    classNo INT,
+    shelf INT,
+    floor INT,
+    loanPeriod INT,
+    author VARCHAR(100),
+    loanHistory INT,
+    resourceType VARCHAR(50)
+);
+ 
+CREATE TABLE ResourceCopy (
+copyID INT,
+resourceID INT REFERENCES Resources(resourceID),
+Loanable NUMBER(1) CHECK (loanable IN (0, 1)),
+PRIMARY KEY(copyID, resourceID)
+);
+ 
+CREATE TABLE Loan (
+	loanID INT PRIMARY KEY,
+	copyID INT,
+	resourceID INT,
+	userID INT,
+	loanDate DATE,
+	dueDate DATE,
+	returnDate DATE,
+	CONSTRAINT fk_loan_student FOREIGN KEY (userID) REFERENCES Student(userID) ON DELETE CASCADE,
+
+	CONSTRAINT fk_loan_resource_copy FOREIGN KEY (copyID, resourceID) REFERENCES ResourceCopy(copyID, resourceID)
+);
+ 
+CREATE TABLE FineDetails
+(
+    loanID INT PRIMARY KEY REFERENCES Loan(loanID),
+    fine DECIMAL(5, 2)
+);
+ 
+CREATE TABLE ReservationDetails (
+    reservationID INT PRIMARY KEY,
+    resourceID INT REFERENCES Resources(resourceID),
+    userID INT REFERENCES Student(userID),
+    queue INT,
+    pickupDeadline DATE,
+    missedPickups INT
+);
+
+--------------------SECOND BLOCK (POPULATION) -------------------------------
+
+-- Insert data into the Student table
+INSERT ALL
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (1, 'Emily', 'Smith', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (2, 'Liam', 'Johnson', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (3, 'Olivia', 'Brown', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (4, 'Noah', 'Davis', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (5, 'Sophia', 'Wilson', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (6, 'Jackson', 'Martinez', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (7, 'Ava', 'Anderson', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (8, 'Aiden', 'Taylor', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (9, 'Emma', 'Thomas', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (10, 'Lucas', 'Moore', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (11, 'Mia', 'Jackson', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (12, 'Logan', 'White', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (13, 'Isabella', 'Harris', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (14, 'Mason', 'Clark', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (15, 'Olivia', 'Lewis', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (16, 'Elijah', 'Young', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (17, 'Harper', 'Hall', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (18, 'Ethan', 'Walker', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (19, 'Amelia', 'Turner', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (20, 'Grayson', 'Rodriguez', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (21, 'Sofia', 'Garcia', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (22, 'Caleb', 'Martinez', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (23, 'Avery', 'Hernandez', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (24, 'Benjamin', 'Lopez', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (25, 'Charlotte', 'Gonzalez', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (26, 'Samuel', 'Perez', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (27, 'Grace', 'Sanchez', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (28, 'Henry', 'Ramirez', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (29, 'Scarlett', 'Flores', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (30, 'Alexander', 'Nguyen', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (31, 'Abigail', 'Kim', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (32, 'Michael', 'Lee', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (33, 'Lily', 'Patel', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (34, 'James', 'Williams', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (35, 'Addison', 'Jones', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (36, 'Daniel', 'Miller', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (37, 'Evelyn', 'Adams', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (38, 'Matthew', 'Robinson', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (39, 'Zoey', 'Green', 0, 0)
+INTO Student (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (40, 'David', 'Baker', 0, 0)
+SELECT * FROM dual;
+ 
+-- Insert data into the Staff table for the second set of staff members
+INSERT ALL
+    INTO
+Staff (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (41,
+'Cain', 'Bonilla', 0, 0)
+    INTO
+Staff (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (42,
+'Gertrude', 'Cantrell', 0, 0)
+    INTO
+Staff (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (43,
+'Ellen', 'Cross', 0, 0)
+    INTO
+Staff (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (44,
+'Ameera', 'Hendricks', 0, 0)
+    INTO
+Staff (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (45,
+'Jasmine', 'Cervantes', 0, 0)
+    INTO
+Staff (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (46,
+'Maddison', 'Bartlett', 0, 0)
+    INTO
+Staff (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (47,
+'Calum', 'Nunez', 0, 0)
+    INTO
+Staff (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (48,
+'Oliwier', 'Ali', 0, 0)
+    INTO
+Staff (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (49,
+'Kendra', 'Knox', 0, 0)
+    INTO
+Staff (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (50,
+'Ali', 'Preston', 0, 0)
+    INTO
+Staff (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (51,
+'Finnian', 'Harrington', 0, 0)
+    INTO
+Staff (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (52,
+'Summer', 'Donnelly', 0, 0)
+    INTO
+Staff (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (53,
+'Talha', 'French', 0, 0)
+    INTO
+Staff (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (54,
+'Layton', 'Taylor', 0, 0)
+    INTO
+Staff (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (55,
+'Herman', 'Mccann', 0, 0)
+    INTO
+Staff (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (56,
+'Lily', 'Golden', 0, 0)
+    INTO
+Staff (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (57,
+'Isabel', 'Johns', 0, 0)
+    INTO
+Staff (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (58,
+'Rosa', 'Duncan', 0, 0)
+    INTO
+Staff (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (59,
+'Elinor', 'Riggs', 0, 0)
+    INTO
+Staff (userID, firstName, lastName, resourcesBorrowed, totalFines) VALUES (60,
+'Rosie', 'Vance', 0, 0)
+SELECT *
+FROM dual;
+ 
+-- Insert data into the Resource table
+INSERT ALL
+    INTO RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES (1, 'Whispering Shadows', 'Isabella Hale', 'Book', 4, 2, 2, 1)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(2, 'Midnight Serenade', 'Oliver Steele', 'Book', 1, 3, 3, 14)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(3, 'Enchanted Echo', 'Evelyn Rivers', 'Book', 5, 1, 1, 2)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(4, 'Shattered Reflections', 'Benjamin Fox', 'Video', 2, 4, 2, 14)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(5, 'Emerald Secrets', 'Sophia Hayes', 'DVD', 3, 5, 3, 1)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(6, 'Lost Horizon', 'Elijah Stone', 'DVD', 1, 1, 1, 14)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(7, 'The Silmarillion', 'J. R. R. Tolkien', 'Book', 4, 3, 2, 14)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(8, 'Crime and Punishment', 'Fyodor Dostoevsky', 'Book', 5, 4, 3, 14)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(9, 'Inception', 'Christopher Nolan', 'DVD', 2, 2, 1, 2)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(10, 'Twilight Enigma', 'Jasper Hart', 'Video', 3, 5, 2, 14)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(11, 'Ephemeral Whispers', 'Penelope Frost', 'CD', 1, 1, 1, 2)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(12, 'Enigmatic Odyssey', 'Nathaniel Reed', 'Video', 5, 3, 3, 1)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(13, 'Sapphire Illusions', 'Eliza Morgan', 'Video', 3, 2, 2, 1)    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(14, 'Whirlwind Chronicles', 'William Chase', 'DVD', 2, 4, 1, 2)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(15, 'Echoes of Eternity', 'Scarlett Lane', 'Book', 4, 1, 3, 14)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(16, 'Serendipity Mirage', 'Sebastian Grant', 'Book', 1, 5, 2, 14)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(17, 'Ethereal Dusk', 'Victoria Moon', 'Book', 5, 3, 3, 14)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(18, 'Mystic Odyssey', 'Elijah Quinn', 'Video', 2, 2, 1, 14)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(19, 'Obsidian Reverie', 'Amelia Day', 'Video', 4, 4, 2, 1)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(20, 'Velvet Mirage', 'Alexander Black', 'Video', 3, 1, 3, 2)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(21, 'Echoes of Destiny', 'Harper Ray', 'Book', 1, 5, 1, 14)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(22, 'Celestial Mirage', 'Liam Rivers', 'DVD', 4, 2, 2, 14)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(23, 'Midnight Serenity', 'Isla Montgomery', 'Book', 2, 3, 1, 2)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(24, 'Enchanted Melody', 'Caleb North', 'Book', 5, 4, 3, 14)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(25, 'Eternal Embers', 'Ava Sterling', 'Book', 3, 1, 2, 14)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(26, 'Whispering Sirens', 'Julian Walker', 'DVD', 1, 5, 3, 14)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(27, 'Shrouded Eternity', 'Grace Bennett', 'DVD', 2, 2, 1, 1)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(28, 'Ethereal Shadows', 'Felix Hayes', 'Book', 5, 3, 2, 2)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(29, 'Celestial Whispers', 'Olivia Harper', 'CD', 4, 4, 3, 14)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(30, 'Crimson Illusions', 'Mason Evans', 'Video', 3, 1, 1, 14)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(31, 'Twilight Reverie', 'Lily Dixon', 'Book', 1, 5, 2, 1)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(32, 'Lost Melody', 'Carter Stone', 'CD', 2, 2, 1, 14)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(33, 'Enigmatic Whispers', 'Aria West', 'CD', 5, 3, 3, 14)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(34, 'Ephemeral Serenity', 'Gabriel Knight', 'Book', 4, 1, 2, 2)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(35, 'Whispering Embers', 'Stella Reed', 'DVD', 3, 4, 3, 2)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(36, 'Celestial Enigma', 'Ethan Frost', 'CD', 1, 5, 1, 14)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(37, 'Mystic Harmony', 'Isabella Hart', 'Book', 4, 2, 2, 1)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(38, 'Obsidian Dreams', 'Jackson Quinn', 'Book', 2, 3, 3, 14)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(39, 'Midnight Echo', 'Chloe Lane', 'Book', 5, 1, 1, 14)
+    INTO
+RESOURCES (resourceID, name, Author, ResourceType, classNo, shelf, floor, loanPeriod) VALUES
+(40, 'Shattered Illusions', 'Noah Williams', 'Book', 3, 4, 2, 14)
+SELECT *
+FROM dual;
+ 
+-- Insert data into the Copy table
+INSERT ALL
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 1, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 2, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 3, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (2, 3, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 4, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (2, 4, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (3, 4, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (4, 4, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 5, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 6, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 7, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 8, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 9, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 10, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (2, 10, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (3, 10, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (4, 10, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (5, 10, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (6, 10, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 11, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 12, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 13, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 14, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 15, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 16, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (2, 16, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (3, 16, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 17, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 18, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 19, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 20, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 21, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 22, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 23, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 24, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 25, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 26, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (2, 26, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (3, 26, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 27, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 28, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 29, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (2, 29, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (3, 29, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (4, 29, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 30, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 31, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 32, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 33, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (2, 33, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 34, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (2, 34, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 35, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 36, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (2, 36, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (3, 36, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 37, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 38, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 39, 0)
+    INTO
+RESOURCECOPY (copyID, resourceID, loanable) VALUES (1, 40, 0)
+SELECT *
+FROM dual;
+
+
+--------------------THIRD BLOCK (SEQUENCES) -------------------------------
+
+CREATE SEQUENCE loan_id_sequence START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE reservation_id_sequence START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE reservation_queue_sequence START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE loan_history START WITH 1 INCREMENT BY 1;
+
+--------------------FOURTH BLOCK (TRIGGERS) -------------------------------
+
+CREATE OR REPLACE TRIGGER update_due_date_loan
+BEFORE INSERT ON Loan
+FOR EACH ROW
+DECLARE
+    v_loan_period NUMBER;
+BEGIN
+    -- Retrieve the loan period from the associated ResourceCopy
+SELECT r.loanPeriod INTO v_loan_period
+FROM ResourceCopy rc
+JOIN Resources r ON rc.resourceID = r.resourceID
+WHERE rc.copyID = :NEW.copyID
+  AND rc.resourceID = :NEW.resourceID; -- add this condition
+
+    -- Calculate the due date based on the retrieved loan period and loanDate
+    :NEW.dueDate := :NEW.loanDate + v_loan_period;
+
+    -- Update ResourceCopy (assuming loanable is a column in ResourceCopy)
+    UPDATE ResourceCopy rc
+    SET loanable = 1
+    WHERE rc.copyID = :NEW.copyID
+      AND rc.resourceID = :NEW.resourceID; -- Add this condition
+END;
+/
+CREATE OR REPLACE TRIGGER update_resources_borrowed
+BEFORE INSERT ON Loan
+FOR EACH ROW
+BEGIN
+    UPDATE Student
+    SET resourcesBorrowed = NVL(resourcesBorrowed, 0) + 1
+    WHERE userID = :NEW.userID;
+
+    UPDATE Staff
+    SET resourcesBorrowed = NVL(resourcesBorrowed, 0) + 1
+    WHERE userID = :NEW.userID;
+END;
+/
+CREATE OR REPLACE TRIGGER adjust_queue_on_loan
+AFTER INSERT ON Loan
+FOR EACH ROW
+BEGIN
+    -- Decrease the queue for all users with the same reservation
+    UPDATE ReservationDetails
+    SET queue = GREATEST(0, queue - 1)
+    WHERE resourceID = :NEW.resourceID;
+END;
+/
+CREATE OR REPLACE TRIGGER update_loan_history
+AFTER INSERT ON Loan
+FOR EACH ROW
+DECLARE
+    v_resource_id INT;
+BEGIN
+    -- Retrieve the resourceID from the associated ResourceCopy
+    SELECT rc.resourceID INTO v_resource_id
+    FROM ResourceCopy rc
+    WHERE rc.copyID = :NEW.copyID AND rc.resourceID = :NEW.resourceID;
+    -- Update the LoanHistory in the corresponding Resources table
+    UPDATE Resources
+    SET LoanHistory = NVL(LoanHistory, 0) + 1
+    WHERE resourceID = v_resource_id;
+END;
+/
+
+--------------------FIFTH BLOCK (NECESSARY QUERIES FOR VIEWS) -------------------
+
+--Query 1
+DECLARE
+    v_resource_id NUMBER := 3; -- Replace X with the actual resourceID
+    v_copy_id NUMBER := 2; -- Replace Y with the actual copyID
+    v_user_id NUMBER := 2; -- Replace Zwith the actual userID
+BEGIN
+ 	INSERT INTO Loan (loanID, resourceID, copyID, userID, loanDate, dueDate)
+VALUES (loan_id_sequence.NEXTVAL, v_resource_id, v_copy_id, v_user_id, SYSDATE, NULL);
+END;
+
+--Query 2
+DECLARE 
+    v_resource_id NUMBER := 5; -- Replace X with the actual resourceID 
+    v_copy_id NUMBER := 1; -- Replace Y with the actual copyID 
+    v_user_id NUMBER := 13; -- Replace Zwith the actual userID 
+BEGIN 
+ 	INSERT INTO Loan (loanID, resourceID, copyID, userID, loanDate, dueDate) 
+VALUES (loan_id_sequence.NEXTVAL, v_resource_id, v_copy_id, v_user_id, TO_DATE('19-NOV-23', 'DD-MON-YY'), NULL); 
+END;
+
+--Query 3
+DECLARE
+    v_resource_id NUMBER := 4; -- Replace X with the actual resourceID
+    v_copy_id NUMBER := 1; -- Replace Y with the actual copyID
+    v_user_id NUMBER := 1; -- Replace Zwith the actual userID
+BEGIN
+ 	INSERT INTO Loan (loanID, resourceID, copyID, userID, loanDate, dueDate)
+VALUES (loan_id_sequence.NEXTVAL, v_resource_id, v_copy_id, v_user_id, TO_DATE('02-NOV-23', 'DD-MON-YY'), NULL);
+END;
+
+--Query 4
+DECLARE
+    v_resource_id NUMBER := 3; -- Replace X with the actual resourceID
+    v_copy_id NUMBER := 1; -- Replace Y with the actual copyID
+    v_user_id NUMBER := 4; -- Replace Zwith the actual userID
+BEGIN
+ 	INSERT INTO Loan (loanID, resourceID, copyID, userID, loanDate, dueDate)
+VALUES (loan_id_sequence.NEXTVAL, v_resource_id, v_copy_id, v_user_id, TO_DATE('01-NOV-23', 'DD-MON-YY'), NULL);
+END;
+
+--Query 5
+DECLARE
+    v_resource_id NUMBER := 2; -- Replace X with the actual resourceID
+    v_copy_id NUMBER := 1; -- Replace Y with the actual copyID
+    v_user_id NUMBER := 1; -- Replace Zwith the actual userID
+BEGIN
+ 	INSERT INTO Loan (loanID, resourceID, copyID, userID, loanDate, dueDate)
+VALUES (loan_id_sequence.NEXTVAL, v_resource_id, v_copy_id, v_user_id, TO_DATE('10-NOV-23', 'DD-MON-YY'), NULL);
+END;
+
+--Query 6
+DECLARE
+    v_resource_id NUMBER := 1; -- Replace X with the actual resourceID
+    v_copy_id NUMBER := 1; -- Replace Y with the actual copyID
+    v_user_id NUMBER := 1; -- Replace Zwith the actual userID
+BEGIN
+ 	INSERT INTO Loan (loanID, resourceID, copyID, userID, loanDate, dueDate)
+VALUES (loan_id_sequence.NEXTVAL, v_resource_id, v_copy_id, v_user_id, SYSDATE, NULL);
+END;
+
+
+--Queries to populate FINEDETAILS
+
+--Query 1
+DECLARE
+v_loan_id NUMBER := 3; -- Replace 1 with the loanID
+v_fine NUMBER := 27; -- Replace 1 with the amount of fine
+BEGIN
+INSERT INTO FineDetails (loanID, fine)
+VALUES (v_loan_id, v_fine);
+END;
+/
+
+--Query 2
+DECLARE
+v_loan_id NUMBER := 4; -- Replace 1 with the loanID
+v_fine NUMBER := 14; -- Replace 1 with the amount of fine
+BEGIN
+INSERT INTO FineDetails (loanID, fine)
+VALUES (v_loan_id, v_fine);
+END;
+/
+
+--Query 3
+DECLARE
+v_loan_id NUMBER := 21; -- Replace 1 with the loanID
+v_fine NUMBER := 10; -- Replace 1 with the amount of fine
+BEGIN
+INSERT INTO FineDetails (loanID, fine)
+VALUES (v_loan_id, v_fine);
+END;
+/
+
+--Query 4
+DECLARE
+v_loan_id NUMBER := 2; -- Replace 1 with the loanID
+v_fine NUMBER := 6; -- Replace 1 with the amount of fine
+BEGIN
+INSERT INTO FineDetails (loanID, fine)
+VALUES (v_loan_id, v_fine);
+END;
+/Q
+
+
+--------------------SIXTH BLOCK (VIEWS) -------------------------------
+
+--Popularity
+CREATE VIEW PopularResources AS
+SELECT 
+    r.resourceID,
+    r.name,
+    r.resourcetype,
+    COUNT(l.loanID) AS loancount
+FROM 
+    Resources r
+JOIN 
+    Loan l ON r.resourceID = l.resourceID
+GROUP BY 
+    r.resourceID, r.name, r.resourcetype
+ORDER BY 
+    loancount DESC;
+
+--Suspensions
+CREATE VIEW Suspensions AS
+SELECT 
+	STUDENT.USERID AS USERID,
+	0 AS SuspensionStatus
+FROM 
+	STUDENT
+UNION
+SELECT 
+	STAFF.USERID,
+	0 
+FROM 
+	STAFF
+UNION
+SELECT 
+LOAN.USERID AS USERID,
+	CASE
+		WHEN SUM(FINEDETAILS.FINE) > 10 THEN 1
+		ELSE 0
+	END AS SuspensionStatus
+FROM
+	FINEDETAILS
+JOIN
+	LOAN ON FINEDETAILS.LOANID = LOAN.LOANID
+GROUP BY
+	LOAN.USERID;
+
+
+--Days Overdue 
+CREATE OR REPLACE VIEW OverdueResources AS
+SELECT 
+    l.resourceID,
+    MAX(l.loanID) AS loanID,
+    MAX(l.userID) AS userID,
+    MAX(l.copyID) AS copyID,
+    MAX(l.loanDate) AS loanDate,
+    MAX(l.dueDate) AS dueDate,
+    TRUNC(MIN(SYSDATE - l.dueDate)) AS daysOverdue
+FROM 
+    Loan l
+JOIN 
+    Resourcecopy rd ON l.copyID = rd.copyID
+WHERE 
+    rd.loanable = 0 AND (SYSDATE > l.dueDate)
+GROUP BY 
+    l.resourceID
+ORDER BY 
+    daysOverdue DESC;
+
+--Availability 
+CREATE VIEW Availability AS 
+SELECT 
+RESOURCEID AS RESOURCEID, 
+CASE 
+WHEN SUM(CASE WHEN LOANABLE = 0 THEN 1 ELSE 0 END) > 0 THEN 0 --loanable 
+ELSE 1 --unloanable 
+END AS LOANABLE, 
+SUM(CASE WHEN LOANABLE = 0 THEN 1 ELSE 0 END) AS AVAILABLE_COPIES FROM 
+RESOURCECOPY 
+GROUP BY 
+RESOURCEID 
+ORDER BY 
+RESOURCEID;
